@@ -15,7 +15,7 @@ void printArray(int arr[], int len)
     for (int i = 1; i <= len; i++)
     {
         std::cout << arr[i - 1] << " ";
-        if (i % 10 == 0 && i != 0) // Print 10 numbers per line
+        if (i % 10 == 0 && i != 0)
             std::cout << std::endl; 
     }
 }
@@ -24,15 +24,12 @@ void printArray(int arr[], int len)
 
 int main()
 {
-    // 随机初始化数组
     int array[arraySIZE]{};
     int arrTemp[arraySIZE]{};
     
-    // 随机数填充数组
     std::srand(std::time(0));
     for (int i = 0; i < arraySIZE; ++i) { array[i] = (std::rand() % 10001); }
 
-    // 计时排序
     START;
     // MergeSort(array, arrTemp, 0, arraySIZE);
     // insertionSort(array, arraySIZE);
