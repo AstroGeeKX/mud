@@ -1,4 +1,7 @@
+# Unusual and complex folders
 GitHub/
 work/
-socket/
 snake/
+
+# Compiled Static libraries
+*.exe
