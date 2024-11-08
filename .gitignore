@@ -1,7 +1,29 @@
 # Unusual and complex folders
-GitHub/
-work/
-snake/
+GitHub/*
+work/*
+snake/*
+.vscode/*
+
+# 不屏蔽的
+# GitHub/stl1weekend/
+# GitHub/cpp_new_features/
+# GitHub/folly
+# GitHub/CMakeTutorial
+# GitHub/FunctionDou
+# GitHub/co_http
+# GitHub/ModernCpp-ConcurrentProgramming-Tutorial
+# GitHub/Modern-Cpp-templates-tutorial
+# GitHub/course
+# GitHub/Tinyhttpd
+# GitHub/libhv
+# GitHub/libcopp
+# GitHub/handy
+# GitHub/MyTinySTL
+# GitHub/linux-server
+# GitHub/Cpp-Design-Patterns
+# !GitHub/30dayMakeCppServer/
+# GitHub/muduo
+# GitHub/algorithm-structure-maste
 
 # Compiled Static libraries
 *.exe
