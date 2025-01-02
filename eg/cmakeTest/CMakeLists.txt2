@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(specialProjectName)
+
+add_executable(hello hello.cpp)
+
+# 设置Cpp标准
+#set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON) # 在检测到不支持时出错
+#set(CMAKE_CXX_EXTENSIONS ON) #一般设为off，否则在msvc上没有特性会出错

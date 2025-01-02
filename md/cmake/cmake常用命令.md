@@ -1,6 +1,7 @@
  ### CMake常用命令
 
 以下是一些CMake中常用的命令，按照使用频率排序：
+<参数> [属性]
 
 1. `cmake_minimum_required(VERSION <VERSION_NUMBER>)`：设置所需的CMake最小版本。
 2. `project(<PROJECT_NAME>)`：设置项目名称，并可指定支持的语言。
@@ -35,3 +36,13 @@
 11. `CMAKE_MAKE_PROGRAM`：生成的构建系统中使用的make命令的路径（例如make, ninja）。
 
 以上命令和变量是根据搜索结果中的信息整理得出的，并考虑了时效性和相关性.
+
+### Cmake常用编译选项
+
+1. **`CMAKE_CXX_STANDARD`**：指定C++标准。
+2. **`CMAKE_BUILD_TYPE`**：指定构建类型，如Debug、Release、RelWithDebInfo和MinSizeRel。
+3. **`CMAKE_CXX_FLAGS`**：指定C++编译器的编译选项。
+4. **`CMAKE_C_FLAGS`**：指定C编译器的编译选项。
+5. **`CMAKE_EXE_LINKER_FLAGS`**：指定链接器的链接选项。
+6. **`CMAKE_SHARED_LINKER_FLAGS`**：指定共享库链接器的链接选项。
+7. **`CMAKE_MODULE_LINKER_FLAGS`**：指定模块链接器的链接选项。
