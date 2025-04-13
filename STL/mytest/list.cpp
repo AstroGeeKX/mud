@@ -1,5 +1,7 @@
 #include <list>
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
 
 void printList(const list<int>& L) {
@@ -18,16 +20,17 @@ void test01()
 	L1.push_back(20);
 	L1.push_back(30);
 	L1.push_back(40);
-
 	printList(L1);
 
-	list<int>L2(L1.begin(),L1.end());
+	// (start, end)拷贝构造
+	list<int>L2(L1.begin(), L1.end());
 	printList(L2);
 
+	// 拷贝构造
 	list<int>L3(L2);
 	printList(L3);
-
-	list<int>L4(5, 114);
+	// (数量， 元素)初始化构造 
+	list<int>L4(10, 6);
 	printList(L4);
 }
 
@@ -41,15 +44,17 @@ void test02()
 	L1.push_back(30);
 	L1.push_back(40);
 
-	//赋值
+	// 整个对象赋值
 	list<int>L2;
 	L2 = L1;
 
+	// (start, end)赋值
 	list<int>L3;
 	L3.assign(L2.begin(), L2.end());
 
+	// (count, value)赋值
 	list<int>L4;
-	L4.assign(5, 514);
+	L4.assign(10, 514);
 
 	printList(L1);
 	printList(L2);
@@ -69,25 +74,22 @@ void test03()
 	L1.push_back(30);
 	L1.push_back(40);
 
+	// assign 赋值函数
 	list<int>L2;
-	L2.assign(10, 100); // assign 赋值函数
+	L2.assign(10, 6);
 
 	cout << "before swap: " << endl;
 	printList(L1);
 	printList(L2);
-
-	cout << endl;
-
+	
 	L1.swap(L2);
-
 	cout << "after swap: " << endl;
 	printList(L1);
 	printList(L2);
-
 }
 
 
-//大小操作
+// 容量大小操作
 void test04()
 {
 	list<int>L1;
@@ -127,39 +129,39 @@ void test05()
 	L.push_front(100);
 	L.push_front(200);
 	L.push_front(300);
-
-	printList(L);
+	printList(L);  // line 1
 
 	//尾删
 	L.pop_back();
-	printList(L);
+	printList(L);  // line 2
 
 	//头删
 	L.pop_front();
-	printList(L);
+	printList(L);  // line 3
 
 	//插入
-	list<int>::iterator it = L.begin();
-	L.insert(++it, 114);
-	printList(L);
+	list<int>::iterator it = L.begin();  // it是首元素（迭代器）
+	L.insert(it, 114);
+	printList(L);  // line 4
 
 	//删除
 	it = L.begin();
-	L.erase(++it);
-	printList(L);
+	L.erase(it);
+	printList(L);  // line 5
 
 	//移除
 	L.push_back(514);
 	L.push_back(514);
 	L.push_back(514);
-	printList(L);
+	printList(L);  // line 6
 
+	// 移除链表容器中所有514元素
 	L.remove(514);
-	printList(L);
+	printList(L);  // line 7
     
     //清空
 	L.clear();
-	printList(L);
+	printList(L);  // empty line 8
 }
 
 
@@ -171,26 +173,21 @@ void test06()
 	L1.push_back(20);
 	L1.push_back(30);
 	L1.push_back(40);
-	
-	//cout << L1.at(0) << endl;//错误 不支持at访问数据
-	//cout << L1[0] << endl; //错误  不支持[]方式访问数据
-	cout << "first element : " << L1.front() << endl;
-	cout << "last element : " << L1.back() << endl;
+	printList(L1);
 
-	//list容器的迭代器是双向迭代器，不支持随机访问
-	list<int>::iterator it = L1.begin();
-	//it = it + 1;//错误，不可以跳跃访问，即使是+1
+	// list容器的迭代器是双向迭代器，不支持随机访问
+	//cout << L1.at(0) << endl;  // 错误  不支持at()访问数据
+	//cout << L1[0] << endl;   // 错误  不支持[]访问数据
+	cout << "first element, L1.front(): " << L1.front() << endl;
+	cout << "last element, L1.back(): " << L1.back() << endl;
+	// it = it + 1;  // 错误，不可以跳跃访问，只能是++ --这些
 }
-// * list容器中不可以通过[]或者at方式访问数据
-// * 返回第一个元素   --- front
-// * 返回最后一个元素   --- back
 
 
-
-//反转和排序
-bool myCompare(int val1 , int val2)
+//反转和排序 函数谓词
+bool myCompare(int l , int r)
 {
-	return val1 > val2;
+	return l > r;
 }
 void test07()
 {
@@ -206,17 +203,31 @@ void test07()
 	printList(L);
 
 	//排序
-	L.sort(); //默认的排序规则 从小到大
+	L.sort();  // 默认的排序规则 从小到大
 	printList(L);
 
-	L.sort(myCompare); //指定规则，从大到小
+	L.sort(myCompare);  // 指定规则，从大到小
 	printList(L);
 }
 
 
+// std::find查找
+void test08() {
+    std::list<int> myList = {1, 2, 3, 4, 5};
+    int target = 4;
+
+    auto it = find(myList.begin(), myList.end(), target);
+    if (it != myList.end()) {
+        std::cout << "Element found at position: "
+                  << std::distance(myList.begin(), it) << std::endl;
+    } else {
+        std::cout << "Element not found" << std::endl;
+    }
+}
+
 int main() {
 
-	test07();
+	test08();
 
 	return 0;
 }
