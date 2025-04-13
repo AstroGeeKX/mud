@@ -59,6 +59,7 @@ public:
 
 void func(Suff x)
 {
+    std::cout << "func函数左括号{" << std::endl;
 }
 
 // 资源管理一大重点在于移动构造，资源转移，避免二次释放资源
@@ -66,12 +67,19 @@ void func(Suff x)
 
 int main()
 {
-    auto suff = Suff();
-    func(std::move(suff));
-    // Suff suff2(std::move(suff)); // suff2拷贝构造 suff3移动构造 move是c++关键字std::move()
-    // 假如移动构造没有实现，而使用了move传递右值，那么将隐式调用拷贝构造
+    auto suff = Suff();  // 打印：调用构造函数
+    std::cout << "func函数调用前一行" << std::endl;
+    func(std::move(suff));  // 打印：调用了移动构造函数
+    std::cout << "func函数右括号}" << std::endl;
+
+    // Suff suff2(std::move(suff));
+    // 假如移动构造没有实现，并且使用了move，那么隐式调用拷贝构造
     // Suff suff3;
-    // suff3 = suff; // 首次创建新对象只会调用构造而不是赋值 =赋值将转化为()构造
+    // suff3 = suff;  // 首次创建新对象只会调用构造而不是赋值， operator=赋值将转化为构造函数()
 
     return 0;
 }
+
+// 右值移动并没有什么复杂的地方，旨在标记右值的手段来选择具体的内存操作方法，必须要开发者具体实现
+// 栈上创建了多少对象，都是在生命周期结束后销毁，并没有移动的意思
+// 内置基本类型构成的简单类，不具移动构造的意义，不会因此节省性能

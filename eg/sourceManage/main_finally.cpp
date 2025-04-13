@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <functional>
+#include <utility>
 
 using namespace std;
 
@@ -12,11 +13,12 @@ struct Finally {
 
     Finally() : func(), valid(false) {}
 
-    Finally(Callback func) : func(func), valid(true) {
-    }
+    Finally(Callback func) : func(func), valid(true) {}
 
-    Finally(Finally &&that) noexcept : func(std::move(that.func)), valid(that.valid) {
-        that.valid = false; // 如果要支持移动语义，必须有个 bool 变量表示空状态！
+    Finally(Finally &&that) noexcept
+        : func(std::move(that.func)), valid(that.valid) {
+        that.valid =
+            false;  // 如果要支持移动语义，必须有个 bool 变量表示空状态！
     }
 
     Finally &operator=(Finally &&that) noexcept {
@@ -31,9 +33,7 @@ struct Finally {
         return *this;
     }
 
-    void cancel() {
-        valid = false;
-    }
+    void cancel() { valid = false; }
 
     void trigger() {
         if (valid) {
@@ -49,13 +49,13 @@ struct Finally {
     }
 };
 
-template <class Callback> // C++17 CTAD
+template <class Callback>  // C++17 CTAD
 Finally(Callback) -> Finally<Callback>;
 
 int main() {
-    Finally cb = [] {
-        puts("调用了 Finally 回调");
-    };
+    int a;
+    int *p = &a;  // comment
+    Finally cb = [] { puts("调用了 Finally 回调"); };
     srand(time(NULL));
     bool success = rand() % 2 == 0;
     if (success) {
@@ -64,7 +64,7 @@ int main() {
         return -1;
     }
     puts("操作成功");
-    cb.cancel(); // cancel 后，析构不再自动 trigger 了
+    cb.cancel();  // cancel 后，析构不再自动 trigger 了
     return 0;
 }
 
