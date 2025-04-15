@@ -5,6 +5,9 @@ snake/*
 .vscode/*
 build
 
+# 代码格式
+.clang-format
+
 # 不屏蔽的
 # GitHub/stl1weekend/
 # GitHub/cpp_new_features/

@@ -1,4 +1,9 @@
 {
-    "C_Cpp.errorSquiggles": "disabled",
-    "cmake.ignoreCMakeListsMissing": true
-}
+    "cmake.ignoreCMakeListsMissing": true,
+    "C_Cpp.errorSquiggles": "disabled"
+} // {
+//     "cmake.sourceDirectory": "D:/mud/mud_cpp/GitHub/MyTinySTL/Test",
+//     "cmake.generator": "MinGW Makefiles",
+//     "cmake.buildDirectory": "${workspaceFolder}/build",
+//     "cmake.configureOnOpen": true
+// }
