@@ -42,3 +42,4 @@ int main()
 }
 
 // 这个map对象simap是反常识的，键是string，值是int，根据键查找"steve"也得一字不落
+// 可能是像展示这样的妙用吧
