@@ -18,7 +18,7 @@
 #define BUFLEN 4096
 #define SERV_PORT 8080
 
-void recvdata(int fd, int events, void *arg);
+void recvdata(int fd, int events, void *arg);  // void (*call_back)(int fd, int events, void *arg)
 void senddata(int fd, int events, void *arg);  // 函数原型要跟回调函数指针一致
 
 /* 描述就绪文件描述符相关信息 */
@@ -27,9 +27,7 @@ struct myevent_s {
     int fd;      // 要监听的文件描述符
     int events;  // 对应的监听事件
     void *arg;   // 泛型参数
-    void (*call_back)(
-        int fd, int events,
-        void *arg);  // 回调函数（准确来说是回调函数指针，recvdata才是回调函数
+    void (*call_back)(int fd, int events, void *arg);  // 函数指针
     int status;  // 是否在监听:1->在红黑树上(监听), 0->不在(不监听)
     char buf[BUFLEN];  // 每个mev对象单独管理一个buf
     int len;
@@ -37,8 +35,7 @@ struct myevent_s {
 };
 
 int g_efd;  // 全局变量, 保存epoll_create返回的文件描述符
-struct myevent_s
-    g_events[MAX_EVENTS + 1];  // 自定义结构体类型数组. +1-->listen fd
+struct myevent_s g_events[MAX_EVENTS + 1];  // 自定义结构体类型数组. +1-->listen fd
 
 /*将结构体 myevent_s 成员变量 初始化*/
 // 初始化结构体，并设置回调函数、fd、arg
@@ -49,7 +46,7 @@ void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *),
     ev->arg = arg;
     ev->call_back = call_back;  // 三个参数在上边
     ev->status = 0;
-    memset(ev->buf, 0, sizeof(ev->buf));  // 初始化0
+    memset(ev->buf, 0, sizeof(ev->buf));  // 初始化buf
     ev->len = 0;
     ev->last_active = time(NULL);  // 调用eventset函数的时间
 
@@ -261,6 +258,7 @@ int main(int argc, char *argv[]) {
 
         /*监听红黑树g_efd, 将满足的事件的文件描述符加至events数组中,
          * 1秒没有事件满足, 返回 0*/
+        // epoll_wait()用的是epoll_event结构体而不是自定义，要记住
         int nfd = epoll_wait(g_efd, events, MAX_EVENTS + 1, 1000);
         if (nfd < 0) {
             printf("epoll_wait error, exit\n");
@@ -268,17 +266,16 @@ int main(int argc, char *argv[]) {
         }
 
         for (i = 0; i < nfd; i++) {
-            /*使用自定义结构体myevent_s类型指针, 接收 联合体data的void
-             * *ptr成员*/
+            // data.ptr存储的是自定义事件结构体，要记住
             struct myevent_s *ev = (struct myevent_s *)events[i].data.ptr;
             if ((events[i].events & EPOLLIN) &&
                 (ev->events & EPOLLIN)) {  // 读就绪事件
                 ev->call_back(ev->fd, events[i].events, ev->arg);
+            }
                 // lfd  EPOLLIN
                 //  分析一下为什么需要确定两个东西，是否是防御性编程，还是代码逻辑相关
                 //  events是就绪事件类型，ev->events是监听事件类型，两者类型匹配才进行事件处理
                 //  按照以上代码逻辑分析，这应该是属于防御性编程，因为目前没有出现两者可能不匹配的情况
-            }
             if ((events[i].events & EPOLLOUT) &&
                 (ev->events & EPOLLOUT)) {  // 写就绪事件
                 ev->call_back(ev->fd, events[i].events, ev->arg);
@@ -289,3 +286,6 @@ int main(int argc, char *argv[]) {
     /* 退出前释放所有资源 */
     return 0;
 }
+
+// 草稿随便写，不要在乎代码整洁度
+// 学习用的草稿一律随便写，力求达到彻底的学习效果
