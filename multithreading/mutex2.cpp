@@ -56,8 +56,9 @@ private:
 
 
 int main() {
-    //mutexCounter counter; // 实例化计数对象
-    atomicCounter counter;
+    // mutexCounter counter; // 实例化计数对象
+    Counter counter; // 实例化计数对象
+    // atomicCounter counter;
     std::thread thread1([&counter]() {
         for (int i = 0; i < 100000; ++i) {
             counter.increment();
