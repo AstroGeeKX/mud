@@ -12,7 +12,6 @@ int main() {
 }
 #endif
 
-
 #if 0
 #include <iostream>
 // 比较两个值 ai
@@ -27,34 +26,30 @@ int main() {
 }
 #endif
 
-
 // 菜鸟教程 返回两个数中的最大值
 #include <iostream>
 #include <string>
- 
+
 using namespace std;
- 
+
 template <typename T>
-inline T const& Max (T const& a, T const& b) 
-{ 
-    return a < b ? b:a; 
+inline T const& Max(T const& a, T const& b) {
+    return a < b ? b : a;
 }
 // T const& Max 这个函数返回值涉及的知识有点难以理解
-int main ()
-{
- 
+int main() {
     int i = 39;
     int j = 20;
-    cout << "Max(i, j): " << Max(i, j) << endl; 
- 
-    double f1 = 13.5; 
-    double f2 = 20.7; 
-    cout << "Max(f1, f2): " << Max(f1, f2) << endl; 
- 
-    string s1 = "Hello"; 
-    string s2 = "World"; 
-    cout << "Max(s1, s2): " << Max(s1, s2) << endl; 
- 
+    cout << "Max(i, j): " << Max(i, j) << endl;
+
+    double f1 = 13.5;
+    double f2 = 20.7;
+    cout << "Max(f1, f2): " << Max(f1, f2) << endl;
+
+    string s1 = "Hello";
+    string s2 = "World";
+    cout << "Max(s1, s2): " << Max(s1, s2) << endl;
+
     return 0;
 }
 
