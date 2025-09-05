@@ -1,4 +1,4 @@
-// 本示例代码演示了C++赋值运算符的基本知识
+// 赋值运算符=
 // 包括深拷贝浅拷贝、隐式创建临时对象、对象的生命周期等
 
 #include <iostream>
@@ -53,20 +53,20 @@ void test01()
 	cout << "p1  " << *p1.m_Age << endl;
 	cout << "p2  " << *p2.m_Age << endl;
 	cout << "p3  " << *p3.m_Age << endl;
-} /* 如果浅拷贝，所有对象资源共同指向p1 */
+} /* 如果浅拷贝，赋值之后，所有对象资源共同指向p1，逻辑上的致命错误 */
 
 void test02()
 {
     Person p1(0);
-    p1 = 1000;
+    p1 = 1000;  // 重点语句
 	cout << "p1: " << *p1.m_Age << endl;
 } /* 隐式创建临时对象再赋值 */
 
 // Person p1(0);
 // p1 = 1000;
-// 隐式创建临时对象再赋值的过程
+// 隐式创建临时对象再赋值的过程：先构造一个临时对象，赋值给左边的p1，再销毁临时对象
 // Person tempobj(1000); p1 = tempobj; ~tempobj;
-//     1: Person(const int &age)  // non-explicit
+//     1: Person(const int &age)  // non-explicit 构造临时对象是隐式调用构造函数，不能用explicit修饰
 //     2: Person &operator=(const Person &p)
 //     3: ~Person()  // tempobj
 
